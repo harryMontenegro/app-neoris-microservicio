@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "6aa3c9e7-c879-4c2e-99ef-89874091e068",
+		"name": "Neoris Endpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "cuenta",
+			"item": [
+				{
+					"name": "buscarPorNumeroDocumento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cuenta/numeroDocumento/5284322",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cuenta",
+								"numeroDocumento",
+								"5284322"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearCuenta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idPersona\": 1,\n    \"numeroCuenta\": \"451326\",\n    \"idTipoCuenta\": 1,\n    \"saldoInicial\": 6000,\n    \"estado\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cuenta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cuenta"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cliente",
+			"item": [
+				{
+					"name": "crearCliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identificacion\": \"3444555\",\n    \"nombres\": \"Luis Perez\",\n    \"idGenero\": 1,\n    \"edad\": 34,\n    \"direccion\": \"Calle\",\n    \"telefono\": \"345234555\",\n    \"estado\": true,\n    \"contrasenia\": \"AB12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cliente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movimiento",
+			"item": [
+				{
+					"name": "TransaccionesDebitoCredito",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"numeroCuenta\": \"478758\",\n    \"valorTransacion\": \"50\",\n    \"codigoTipoTransaccion\": \"DEB\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/movimiento/generarMovimiento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movimiento",
+								"generarMovimiento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ReporteMovimiento",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true,
+							"accept-encoding": true,
+							"accept": true,
+							"user-agent": true,
+							"host": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/movimiento/reporte?numeroDoc=5284322&fechaInicio=2023-01-01&fechaFin=2023-01-30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"movimiento",
+								"reporte"
+							],
+							"query": [
+								{
+									"key": "numeroDoc",
+									"value": "5284322"
+								},
+								{
+									"key": "fechaInicio",
+									"value": "2023-01-01"
+								},
+								{
+									"key": "fechaFin",
+									"value": "2023-01-30"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personas",
+			"item": [
+				{
+					"name": "http://localhost:8080/persona",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identificacion\": \"16828626\",\n    \"nombres\": \"Harry Montenegro\",\n    \"idGenero\": \"1\",\n    \"edad\": \"34\",\n    \"direccion\": \"Calle\",\n    \"telefono\": \"345234555\",\n    \"estado\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/persona",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"persona"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

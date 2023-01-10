@@ -1,0 +1,112 @@
+version: '3.7'
+services:
+
+  mysql-persona:
+    container_name: mysql-persona
+    image: mysql:8.0.30
+    volumes:
+      - persona-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: a12344321
+      MYSQL_DATABASE: persona_bd
+    ports:
+      - "3309:3309"
+    restart: always
+
+
+  mysql-cuenta:
+    container_name: mysql-cuenta
+    image: mysql:8.0.30
+    volumes:
+      - cuenta-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: a12344321
+      MYSQL_DATABASE: cuenta_bd
+    ports:
+      - "3307:3307"
+    restart: always
+
+  mysql-movimiento:
+    container_name: mysql-movimiento
+    image: mysql:8.0.30
+    volumes:
+      - movimiento-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: a12344321
+      MYSQL_DATABASE: movimiento_bd
+    ports:
+      - "3308:3308"
+    restart: always
+
+
+  servicio-discovery:
+    image: servicio-discovery:1.0-SNAPSHOT
+    container_name: servicio-discovery
+    ports:
+      - "8763:8763"
+    restart: always
+
+
+  servicio-apigateway:
+    image: servicio-apigateway:1.0-SNAPSHOT
+    container_name: servicio-apigateway
+    network_mode: host
+    ports:
+      - "8181:8080"
+    expose:
+      - "8080"
+    environment:
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
+    depends_on:
+      - servicio-discovery
+    restart: always
+
+
+  servicio-personas:
+    container_name: servicio-personas
+    image: servicio-personas:1.0-SNAPSHOT
+    network_mode: host
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-personas:3306/persona_bd?allowPublicKeyRetrieval=true&useSSL=false
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    depends_on:
+      - mysql-persona
+      - servicio-discovery
+      - servicio-apigateway
+    restart: always
+
+
+  servicio-cuenta:
+    container_name: servicio-cuenta
+    image: servicio-cuenta:1.0-SNAPSHOT
+    network_mode: host
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/cuenta_bd?allowPublicKeyRetrieval=true&useSSL=false
+      - DATABASE_USER= ${DATABASE_USER}
+      - DATABASE_PASSWORD= ${DATABASE_PASSWORD}
+    depends_on:
+      - mysql-cuenta
+      - servicio-discovery
+      - servicio-apigateway
+    restart: always
+
+
+  servicio-movimiento:
+    container_name: servicio-movimiento
+    image: servicio-movimiento:1.0-SNAPSHOT
+    network_mode: host
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-movimiento:3306/movimiento_bd?allowPublicKeyRetrieval=true&useSSL=false
+      - DATABASE_USER= ${DATABASE_USER}
+      - DATABASE_PASSWORD= ${DATABASE_PASSWORD}
+    depends_on:
+      - mysql-movimiento
+      - servicio-discovery
+      - servicio-apigateway
+    restart: always
+
+volumes:
+  movimiento-mysql-data:
+  persona-mysql-data:
+  cuenta-mysql-data:
